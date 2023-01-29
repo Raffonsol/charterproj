@@ -1,0 +1,235 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GameLib
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 0b62d9927fda4dd45b0087f1e080f87b, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.size
+    value: 17
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[0].name
+    value: Straight Road
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[0].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 6b076afbf9d7ffc4cb59b6473fb58c64, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[0].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[1].name
+    value: Straight Road
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[1].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 2efaae1454eb26245b8c86269e15bf59, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[1].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[2].name
+    value: Road Turn
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[2].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 6b929b25752719f47b6103d65c0865b9, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[2].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[3].name
+    value: Road Turn
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[3].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 2c06049fdefae8d4faa7fded62d91a43, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[3].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[4].name
+    value: Road Turn
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[4].image
+    value: 
+    objectReference: {fileID: 21300000, guid: a79a8ab17f5ccfd48a8f77b1e0cc51de, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[4].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[5].name
+    value: Road Turn
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[5].image
+    value: 
+    objectReference: {fileID: 21300000, guid: dc064ea0b31f40a4a9c76017177ea1db, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[5].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[6].name
+    value: Bifurcation
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[6].image
+    value: 
+    objectReference: {fileID: 21300000, guid: f75389085f2b99e42ab70e26aa6546c6, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[6].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[7].name
+    value: Bifurcation
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[7].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 004c35d9107c53c4cbcd99f1e0bd0e74, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[7].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[8].name
+    value: Bifurcation
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[8].image
+    value: 
+    objectReference: {fileID: 21300000, guid: d35b0b7aec2a86d499556785951bae47, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[8].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[9].name
+    value: Bifurcation
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[9].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 96915d328fa9cb142bbfc32657b5fbd2, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[9].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[10].name
+    value: Intersection
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[10].image
+    value: 
+    objectReference: {fileID: 21300000, guid: 00d8303eef9a1a04e9939f89a865437f, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[10].cardType
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[11].name
+    value: Majestic Castle
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[11].image
+    value: 
+    objectReference: {fileID: 110649925, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[11].cardType
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[12].name
+    value: Magnific Castle
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[12].image
+    value: 
+    objectReference: {fileID: -1439655315, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[12].cardType
+    value: 2
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[13].name
+    value: Item Shop
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[13].image
+    value: 
+    objectReference: {fileID: 497050774, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[13].cardType
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[14].name
+    value: Magic Shop
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[14].image
+    value: 
+    objectReference: {fileID: 1291169582, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[14].cardType
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[15].name
+    value: Residence
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[15].image
+    value: 
+    objectReference: {fileID: 1823224932, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[15].cardType
+    value: 3
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[16].name
+    value: Barracks
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[16].image
+    value: 
+    objectReference: {fileID: 1212500668, guid: f0482c502f24b56478a08fd8a9276c02, type: 3}
+  - target: {fileID: 0}
+    propertyPath: allCards.Array.data[16].cardType
+    value: 3
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []
