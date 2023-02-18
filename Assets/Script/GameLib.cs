@@ -23,6 +23,7 @@ public class GameLib : MonoBehaviour
     public WarriorStats[] allWarriors;
     public GameObject combatantPrefab;
     public GameObject playerBannerPrefab;
+    public GameObject rankPrefab;
     public List<RawCoo> adjacentCoordinates;
     // For NPC usage. 0 = Ground
     public TileType CardTypeToTileCard(CardType cardType) {
@@ -41,15 +42,22 @@ public class GameLib : MonoBehaviour
                 Debug.LogError("Tried to convert " + cardType+" to TileType. And it simply shouldn't happen");
                 return TileType.Environment;
         }
-        Debug.LogError("Tried to convert " + cardType+" to TileType. And it wasn't in the list so it go awkward");
+        Debug.LogError("Tried to convert " + cardType+" to TileType. And it wasn't in the list so it got awkward");
         return TileType.Environment;
     }
 
+    // this is to be ccalled by npc development functions. So that npc doesn't have to decide what ground to create
     public int GetDefaultCard(TileType tileType) {
         switch( tileType) {
             case (TileType.Ground):
             // 17 is grass
                 return 17;
+            case (TileType.Road):
+            // 10 is intersection
+                return 10;
+            case (TileType.City):
+            // 11 is magestic castle
+                return 11;
         }
         return 17;
     }

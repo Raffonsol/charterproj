@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
     public GameObject cardPrefab;
     public GameObject playerPanel;
     public GameObject endturnButton;
+    public GameObject pointsPanel;
     public float cardWidth;
     private int UILayer;
     
@@ -62,6 +63,11 @@ public class UIManager : MonoBehaviour
         return raysastResults;
     }
 
+    public void UpdatePlayerPoints() {
+        pointsPanel.transform.Find("value").GetComponent<TextMeshProUGUI>().text = "Points: "+GameOverlord.Instance.ActivePlayer().points +
+            "\nKills: "+GameOverlord.Instance.ActivePlayer().kills;
+    }
+
     public void ResetHand() {
         showingCards = new List<GameObject>();
         foreach (Transform child in handObject.transform) {
@@ -70,6 +76,10 @@ public class UIManager : MonoBehaviour
     }
     public void ShowNextPlayerPanel() {
             playerPanel.SetActive(true);
+            // if player color becomes customizable TODO: change me
+            Color playerColor = GameLib.Instance.playerColors[GameOverlord.Instance.currentPlayerTurn];
+            playerColor.a = 0.7f;
+            pointsPanel.GetComponent<Image>().color = playerColor;
             playerPanel.GetComponent<NextPlayerPanel>().Run();
     }
 

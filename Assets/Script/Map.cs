@@ -11,6 +11,7 @@ public class Map : MonoBehaviour
     public List<List<InGameTile>> grid;
     public GameObject tileObject;
     public GameObject warriorLayer;
+    public GameObject blast;
     public int columns = 10;
     public int startingRows = 5;
     public float tileLength = 10f;
@@ -42,7 +43,7 @@ public class Map : MonoBehaviour
     }
     void Start()
     {
-       
+       GameOverlord.Instance.Run();
     }
 
     public void Progress() {
@@ -162,5 +163,43 @@ public class Map : MonoBehaviour
         // forloop failed to return a false
         return true;
     
+    }
+    public void StartingCity() {
+        grid[4][5].BecomeTile(GameLib.Instance.GetDefaultCard(TileType.Ground)); // default grass
+        grid[4][5].BecomeTile(GameLib.Instance.GetDefaultCard(TileType.Road)); // default road
+        grid[4][5].BecomeTile(GameLib.Instance.GetDefaultCard(TileType.City)); // default castle
+    }
+    public void Bomb(int x, int y, int radius, int dmg, Combatant source = null) {
+        Instantiate(blast, new Vector2(x*tileLength, -y*tileLength), Quaternion.identity);
+        if (dmg == 0) return; // if no damage then this is just about animation
+        try{for(int j = 0; j <grid[x][y].peopleHere.Count; j++){
+            grid[x][y].peopleHere[j].TakeDamage(dmg, source);
+        }} catch(ArgumentOutOfRangeException) {
+            
+        }
+        for(int i = 1; i <=radius; i++){
+            try{for(int j = 0; j <grid[x+i][y].peopleHere.Count; j++){
+                grid[x][y].peopleHere[j].TakeDamage(dmg, source);
+            }} catch(ArgumentOutOfRangeException) {
+                
+            }
+            try{for(int j = 0; j <grid[x-i][y].peopleHere.Count; j++){
+                grid[x][y].peopleHere[j].TakeDamage(dmg, source);
+            }} catch(ArgumentOutOfRangeException) {
+                
+            }
+            try{for(int j = 0; j <grid[x][y+i].peopleHere.Count; j++){
+                grid[x][y].peopleHere[j].TakeDamage(dmg, source);
+            }} catch(ArgumentOutOfRangeException) {
+                
+            }
+            try{for(int j = 0; j <grid[x][y-i].peopleHere.Count; j++){
+                grid[x][y].peopleHere[j].TakeDamage(dmg, source);
+            }} catch(ArgumentOutOfRangeException) {
+                
+            }
+        }
+        
+        
     }
 }

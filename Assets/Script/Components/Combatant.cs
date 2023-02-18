@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 [Serializable]
 public class WarriorStats {
@@ -12,6 +13,11 @@ public class WarriorStats {
     public float fullLife;
     public float dmg;
     public int range;
+
+    public WarriorStats Clone()
+    {
+        return (WarriorStats)this.MemberwiseClone();
+    }
 }
 
 
@@ -27,6 +33,7 @@ public class Combatant : MonoBehaviour {
     public float speed = 0.8f;
     public float feetSpeed = 0.5f;
     public int energyPoints = 1;
+    public int steps = 1;
     public float life;
     private Vector2 moveDirection;
     
@@ -41,9 +48,11 @@ public class Combatant : MonoBehaviour {
     private bool moving = false;
     private bool attacking = false;
     private float walkDist = 0.1f;
+    private Vector2 nextPoint;
     // Update is called once per frame
     void Update()
     {
+        
         if (attacking) {
             Attack();
             return;
@@ -57,13 +66,15 @@ public class Combatant : MonoBehaviour {
             checkTimer -= Time.deltaTime;
         } else {
             checkTimer = 1f;
+            if (life <= 0) Die();
             if (CheckAttack())return;
             // non npc auto movement to roads
             if (playerOwner != 0) CheckMovement();
+            else if (steps > 0)FindNPCMovement();
         }
     }
     bool CheckAttack() {
-        if (energyPoints == 0 || GameOverlord.Instance.currentPlayerTurn != playerOwner) return false;
+        if (energyPoints == 0 || (playerOwner != 0 && GameOverlord.Instance.currentPlayerTurn != playerOwner)) return false;
         InGameTile adj;
         GameLib.Instance.adjacentCoordinates.Shuffle();
         for(int i = 1; i <=warriorStats.range; i++){
@@ -103,7 +114,7 @@ public class Combatant : MonoBehaviour {
                     moveTarget = southTile;
                     StartMove();
 
-                    int order = UnityEngine.Random.Range(1, 9); 
+                    int order = UnityEngine.Random.Range(1, 8); 
                     walkDist = order * 0.1f;
                     GetComponent<SpriteRenderer>().sortingOrder = 9 - order;
                     return;
@@ -160,41 +171,92 @@ public class Combatant : MonoBehaviour {
         }if (horizontalBound && !bindIsWest) return; // if they are bound they have to stick to this direction
         if (!hasWest && !hasEast) return;
         horizontalBound = true;
-        StartMove();
         if (!hasWest && hasEast) {
             moveTarget = eastTile;
-            GetComponent<SpriteRenderer>().flipX = false;
             banner.transform.localPosition = new Vector2( -0.15f, 0.3f);
             bindIsWest = false;
             return;
         }
         if (hasWest && !hasEast) {
             moveTarget = westTile;
-            GetComponent<SpriteRenderer>().flipX = true;
             banner.transform.localPosition = new Vector2( 0.15f, 0.3f);
             bindIsWest = true;
             return;
         }
         if (UnityEngine.Random.Range(0,2) == 1) {
             moveTarget = eastTile;
-            GetComponent<SpriteRenderer>().flipX = false;
             banner.transform.localPosition = new Vector2( -0.15f, 0.3f);
             bindIsWest = false;
         } else {
             moveTarget = westTile;
-            GetComponent<SpriteRenderer>().flipX = true;
             banner.transform.localPosition = new Vector2( 0.15f, 0.3f);
             bindIsWest = true;
         }
+        
+        StartMove();
+    }
+    void FindNPCMovement() {
+        int chance = UnityEngine.Random.Range(0,3);
+        steps-=1;
+        try {
+            InGameTile southTile = Map.Instance.grid[xPos][yPos + 1];
+            
+            // exists
+            if (southTile.type != TileType.Empty && chance == 2) {
+                moveTarget = southTile;
+                horizontalBound = false;
+                int order = UnityEngine.Random.Range(1, 8); 
+                walkDist = order * 0.1f;
+                GetComponent<SpriteRenderer>().sortingOrder = 9 - order;
+                StartMove();
+                return;
+            }
+        } catch (ArgumentOutOfRangeException) {
+            // this is out of bounds so no movement
+        }
+        try {
+            InGameTile westTile = Map.Instance.grid[xPos - 1][yPos];
+            
+            // exists
+            if (westTile.type != TileType.Empty && ((chance == 0 && !horizontalBound) || (horizontalBound && bindIsWest))) {
+                moveTarget = westTile;
+                horizontalBound = true;
+                bindIsWest = true;
+                StartMove();
+                return;
+            }
+        } catch (ArgumentOutOfRangeException) {
+            horizontalBound = false;
+            // this is out of bounds so no movement
+        }
+        try {
+            InGameTile eastTile = Map.Instance.grid[xPos + 1][yPos];
+            
+            // exists
+            if (eastTile.type != TileType.Empty && ((chance == 1 && !horizontalBound) || (horizontalBound && !bindIsWest))) {
+                moveTarget = eastTile;
+                horizontalBound = true;
+                bindIsWest = false;
+                StartMove();
+                return;
+            }
+        } catch (ArgumentOutOfRangeException) {
+            horizontalBound = false;
+            // this is out of bounds so no movement
+        }
     }
     void StartMove() {
+        Pillage();
+        nextPoint = moveTarget.gameObject.transform.position;
+        nextPoint = new Vector2(UnityEngine.Random.Range(nextPoint.x - 0.5f, nextPoint.x + 0.5f), nextPoint.y);
         GameOverlord.Instance.AddAnimationTimer(3f);
+        GetComponent<SpriteRenderer>().flipX = nextPoint.x < transform.position.x;
+        try{banner.transform.localPosition = new Vector2(nextPoint.x < transform.position.x ? 0.15f : -0.15f, 0.3f);}
+        catch (UnassignedReferenceException) {} // if they don't have a banner that is fine
         moving = true;
     }
     void Move() {
         Vector2 currentPosition = transform.position;
-
-        Vector2 nextPoint = moveTarget.gameObject.transform.position;
         moveDirection = nextPoint - currentPosition;
         moveDirection.Normalize();
         Vector2 target = moveDirection + currentPosition;
@@ -212,48 +274,75 @@ public class Combatant : MonoBehaviour {
             
 		}
     }
+
+    void Pillage() {
+        if (playerOwner != 0 || standingOn.peopleHere.Count > 1 || standingOn.type != TileType.City) return;
+        // if only this undead was here, destroy the city here.
+        standingOn.DownToGrass(2);
+    }
     
     private float attackTimer = 1.3f;
     private Vector2 beforePos;
     void StartAttack() {
-        Debug.Log("Attacking " + attackTarget.warriorStats.name + " owned by player " + attackTarget.playerOwner);
-        
+        if (attackTarget == null) return;    
         GameOverlord.Instance.AddAnimationTimer(); // don't let turns be skipped while going
         horizontalBound = false; // after attacking or being attacked, directions can change
         bool isLeft = (attackTarget.xPos < xPos);
         GetComponent<SpriteRenderer>().flipX = isLeft;
-        banner.transform.localPosition = new Vector2(isLeft ? 0.15f : -0.15f, 0.3f);
+        try{banner.transform.localPosition = new Vector2(isLeft ? 0.15f : -0.15f, 0.3f);}
+        catch (UnassignedReferenceException) {} // if they don't have a banner that is fine
         attackTimer = 1.3f;
         attacking = true;
         GetComponent<SpriteRenderer>().sprite = warriorStats.attack;
         energyPoints--;
         beforePos = new Vector2( transform.position.x,transform.position.y);
-        transform.position = attackTarget.gameObject.transform.position;
     }
     void Attack() {
+        if (attackTarget == null) {
+            FinishAttack();  
+            return;
+        }
         if (attackTimer > 0) {
             attackTimer -= Time.deltaTime;
+            if (warriorStats.range == 1) {
+                transform.position = Vector3.Lerp (transform.position, attackTarget.gameObject.transform.position, speed * 3f * Time.deltaTime);
+            }
         } else {
             FinishAttack();
         }
     }
     void FinishAttack() {
-        GetComponent<SpriteRenderer>().sprite = warriorStats.step1;
         attacking = false;
-        attackTarget.TakeDamage(warriorStats.dmg, this);
+        GetComponent<SpriteRenderer>().sprite = warriorStats.step1;
         transform.position = beforePos;
+        if (attackTarget == null) return;  
+        attackTarget.TakeDamage(warriorStats.dmg, this);
+        
     }
-    public void TakeDamage(float dmg, Combatant attacker) {
+    public void TakeDamage(float dmg, Combatant attacker = null) {
         life -= dmg;
         ShowLife();
         if (life <= 0) {
-            Die();
+            if (attacker != null){
+                GameOverlord.Instance.players[attacker.playerOwner].kills++;
+                GameOverlord.Instance.players[attacker.playerOwner].points++;
+                UIManager.Instance.UpdatePlayerPoints();
+            }
+        } else {
+            // counterAttack
+            if (energyPoints < 1) return;
+            if (attacker != null && attacker.warriorStats != null){ // have to check warrior stats cause it could be a dummy
+                attackTarget = attacker;
+                StartAttack();
+            }
         }
-        // counterAttack
-        if (energyPoints < 1) return;
-        attackTarget = attacker;
-        StartAttack();
+        
     }
+    public void Heal(int offset) {
+        life += offset;
+        if (life > warriorStats.fullLife) life = warriorStats.fullLife;
+    }
+
     public void ShowLife() {
         if (lifeIndicator == null) lifeIndicator = transform.Find("lifeIndicator").GetComponent<LifeIndicator>();
         lifeIndicator.Show(life +"/"+warriorStats.fullLife);

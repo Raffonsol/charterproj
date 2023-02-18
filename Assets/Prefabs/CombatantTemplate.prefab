@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 27000463
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -468157451, guid: 8119f8f09a74bb84db0e0d8f3c85314d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
     step1: {fileID: 0}
     step2: {fileID: 0}
     attack: {fileID: 0}
-    fullLife: 0
+    fullLife: 2
     dmg: 0
     range: 0
   playerOwner: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
   speed: 0.8
   feetSpeed: 0.5
   energyPoints: 1
-  life: 0
+  life: 2
 --- !u!1 &5518784937867138789
 GameObject:
   m_ObjectHideFlags: 0
